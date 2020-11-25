@@ -21,7 +21,7 @@ When writing inputs/outputs:
 - Run the functions `read_input_file` and `read_output_file` to validate your files before submitting!
   - These are the functions run by the autograder to validate submissions
 
-We'll need: 
+We'll need:
 
 Input parameters:
 - n = Number of students in the class
