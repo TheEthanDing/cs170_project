@@ -63,7 +63,7 @@ def read_input_file(path, max_size=None):
 
         return G, stress_budget
 
-read_input_file("50vals/50.out", max_size=None)
+read_input_file("50vals/50.in", max_size=None)
 
 def write_input_file(G, stress_budget, path):
     with open(path, "w") as fo:
@@ -110,6 +110,7 @@ def read_output_file(path, G, s):
         assert utils.is_valid_solution(D, G, s, len(rooms))
 
     return D
+read_output_file("50vals/50.out", read_input_file("50vals/50.in", max_size=None)[0], 61.864)
 
 
 def write_output_file(D, path):
