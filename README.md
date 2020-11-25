@@ -20,3 +20,17 @@ When writing inputs/outputs:
 - Make sure you use the functions `write_input_file` and `write_output_file` provided
 - Run the functions `read_input_file` and `read_output_file` to validate your files before submitting!
   - These are the functions run by the autograder to validate submissions
+
+We'll need: 
+
+Input parameters:
+- n = Number of students in the class
+- hi j = Happiness student i and j give each other
+- si j = Stress student i and j induce on each other
+- Smax = Maximum total stress across all breakout rooms
+
+Output values:
+- Hr = Happiness of breakout room r
+- Sr = Stress of breakout room r
+- Htotal = Total happiness across all breakout rooms
+- k = Total number of breakout rooms opened
