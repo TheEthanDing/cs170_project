@@ -108,10 +108,9 @@ def read_output_file(path, G, s):
             D[node] = room
 
         assert len(nodes) == len(G)
-        #assert utils.is_valid_solution(D, G, s, len(rooms))
+        assert utils.is_valid_solution(D, G, s, len(rooms))
 
     return D
-read_output_file("50vals/50.out", read_input_file("50vals/50.in", max_size=None)[0], 61.864)
 
 
 def write_output_file(D, path):
