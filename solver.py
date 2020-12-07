@@ -4,6 +4,18 @@ from parse import read_input_file, write_output_file
 from utils import is_valid_solution, calculate_happiness
 import sys
 
+def sort_ratios(G, room_list):
+    ratio_list = []
+    g_iter = G.__iter__()
+    for node in g_iter:
+        total_h = 0
+        total_s = 0
+        for room_node in room_list:
+            total_h += G[node][room_node]["happiness"]
+            total_s += G[node][room_node]["stress"]
+        total_ratio = total_h/total_s
+        ratio_list.append(total_ratio)
+    return ratio_list.sort(reverse=True)
 
 def solve(G, s):
     """
@@ -16,7 +28,45 @@ def solve(G, s):
     """
 
     # TODO: your code here!
+    #for one k
+    keys = [i for i in range(G.number_of_nodes())]
+    dict = {key: [] for key in keys}
+    curr_room = 0
+    G_copy = G
+    g_iter = G_copy.__iter__()
+    n = G_copy.number_of_nodes()
+    max_ratio = 0
+    best_node_one = 1
+    best_node_two = 2
+    for node in g_iter:
+        for node_two in g_iter:
+            h = G_copy[node_one][node_two]["happiness"]
+            s = G_copy[node_one][node_two]["stress"]
+            if (s == 0) {
+                s = 0.0001
+            }
+            hs_ratio = h/s
+            if (hs_ratio > max_ratio) {
+                max_ratio = hs_ratio
+                best_node_one = node_one
+                best_node_two = node_two
+            }
+    dict[0].append(best_node_one)
+    dict[0].append(best_node_two)
+
+    #add check for is_valid_solution
+    G_copy.remove_node(best_node_one)
+    G_copy.remove_node(best_node_two)
+    # while sum(dict.values()) < n*(n+1)/2 or (0 not in dict.values()):
+    #for one room
+    while G_copy:
+        while dict[curr_room] <= s/k:
+            sorted_list = sort_ratios(G, dict[curr_room])
+            if sorted_list[0]
+
+
     pass
+
 
 
 # Here's an example of how to run your solver.
