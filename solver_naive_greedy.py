@@ -17,31 +17,41 @@ def solve(G, s):
 
     # TODO: your code here!
     D = {}
-    k = 1
+    k = 0
     
     students_left = G.number_of_nodes()
     student_pairs = G.edges
     student_pair_to_ratio = {}
     for pair in student_pairs:
-        student_pair_to_ratio[pair] = G.edges[pair]["happiness"] / G.edges[pair]["stress"]
-    student_pair_to_ratio = sorted(student_pair_to_ratio.items(), key=lambda x:x[1], reverse=True)
+        student_pair_to_ratio[pair] = [G.edges[pair]["happiness"] / G.edges[pair]["stress"], G.edges[pair]["happiness"]]
+    student_pair_to_ratio = sorted(student_pair_to_ratio.items(), key = lambda x: (x[1][0], x[1][1]), reverse=True)
 
     room_to_students = {}
 
     while students_left > 0:
         students_left = G.number_of_nodes()
+        k += 1
+        D.clear()
         #students_remaining = student_pair_to_ratio.copy()
+        #print("Number of breakout rooms so far: " + str(k))
+        #print("Stress Threshoed: " + str(s/k))
         for r in range(k):
             #room_stress = 0
             room_to_students[r] = []
             for pair_and_ratio in student_pair_to_ratio:
-                if student_1 in D.keys() and student_2 in D.keys():
-                    continue
                 pair = pair_and_ratio[0]
                 student_1 = pair[0]
                 student_2 = pair[1]
-                #ratio = pair_and_ratio[1]
-                if calculate_stress_for_room(room_to_students[r] + pair, G) <= s/k:
+                #print("First student pair: " + str(pair_and_ratio))
+                # If both students are already in assigned rooms, go to next pair
+                if student_1 in D.keys() and student_2 in D.keys():
+                    #print("Both students in this pair are already assigned to rooms.")
+                    continue
+                temp = room_to_students[r].copy()
+                temp.extend(pair)
+                #print("Students in room " + str(r) +": " + str(room_to_students[r]))
+                #print("Stress in this room: " + str(calculate_stress_for_room(room_to_students[r], G)))
+                if calculate_stress_for_room(temp, G) <= s/k:
                     if student_1 not in D.keys() and student_2 not in D.keys():
                         D[student_1] = r
                         D[student_2] = r
@@ -57,7 +67,7 @@ def solve(G, s):
                         students_left -= 1
                 elif r + 1 >= k:
                     break
-            k += 1
+            #print("Number of unassigned students: " + str(students_left))
 
     #print(student_pair_to_ratio[0][0])
     return D, k
@@ -72,9 +82,11 @@ if __name__ == '__main__':
     path = sys.argv[1]
     G, s = read_input_file(path)
     solve(G, s)
-    #D, k = solve(G, s)
-    #assert is_valid_solution(D, G, s, k)
-    #print("Total Happiness: {}".format(calculate_happiness(D, G)))
+    D, k = solve(G, s)
+    assert is_valid_solution(D, G, s, k)
+    print("Total Happiness: {}".format(calculate_happiness(D, G)))
+    print("Number of Breakout Rooms: " + str(k))
+    print(D)
     #write_output_file(D, 'out/test.out')
 
 
