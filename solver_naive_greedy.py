@@ -99,10 +99,10 @@ if __name__ == '__main__':
 # For testing a folder of inputs to create a folder of outputs, you can use glob (need to import it)
 if __name__ == '__main__':
     inputs = glob.glob('inputs/*')
-        for input_path in inputs:
+    for input_path in inputs:
         output_path = 'outputs/' + str(input_path)[7:][:-3] + '.out'
-        G, s = read_input_file(input_path, 100)
+        G, s = read_input_file(input_path)
         D, k = solve(G, s)
         assert is_valid_solution(D, G, s, k)
-        cost_t = calculate_happiness(T)         
+        happiness = calculate_happiness(D, G)         
         write_output_file(D, output_path)
