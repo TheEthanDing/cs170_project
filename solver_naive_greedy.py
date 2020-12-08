@@ -2,6 +2,7 @@ import networkx as nx
 
 from parse import *
 from utils import *
+import glob
 import sys
 
 
@@ -23,7 +24,11 @@ def solve(G, s):
     student_pairs = G.edges
     student_pair_to_ratio = {}
     for pair in student_pairs:
-        student_pair_to_ratio[pair] = [G.edges[pair]["happiness"] / G.edges[pair]["stress"], G.edges[pair]["happiness"]]
+        #print(G.edges[pair]["stress"], pair)
+        ratio = 100000
+        if G.edges[pair]["stress"] > 0:
+            ratio = G.edges[pair]["happiness"] / G.edges[pair]["stress"]
+        student_pair_to_ratio[pair] = [ratio, G.edges[pair]["happiness"]]
     student_pair_to_ratio = sorted(student_pair_to_ratio.items(), key = lambda x: (x[1][0], x[1][1]), reverse=True)
 
     room_to_students = {}
