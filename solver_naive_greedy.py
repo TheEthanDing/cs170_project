@@ -2,6 +2,7 @@ import networkx as nx
 
 from parse import *
 from utils import *
+import glob
 import sys
 
 
@@ -23,7 +24,11 @@ def solve(G, s):
     student_pairs = G.edges
     student_pair_to_ratio = {}
     for pair in student_pairs:
-        student_pair_to_ratio[pair] = [G.edges[pair]["happiness"] / G.edges[pair]["stress"], G.edges[pair]["happiness"]]
+        #print(G.edges[pair]["stress"], pair)
+        ratio = G.edges[pair]["happiness"] / G.edges[pair]["stress"]
+        if G.edges[pair]["stress"] == 0:
+            ratio = 100000
+        student_pair_to_ratio[pair] = [ratio, G.edges[pair]["happiness"]]
     student_pair_to_ratio = sorted(student_pair_to_ratio.items(), key = lambda x: (x[1][0], x[1][1]), reverse=True)
 
     room_to_students = {}
@@ -33,8 +38,8 @@ def solve(G, s):
         k += 1
         D.clear()
         #students_remaining = student_pair_to_ratio.copy()
-        #print("Number of breakout rooms so far: " + str(k))
-        #print("Stress Threshoed: " + str(s/k))
+        print("Number of breakout rooms so far: " + str(k))
+        print("Stress Threshoed: " + str(s/k))
         for r in range(k):
             #room_stress = 0
             room_to_students[r] = []
@@ -42,7 +47,7 @@ def solve(G, s):
                 pair = pair_and_ratio[0]
                 student_1 = pair[0]
                 student_2 = pair[1]
-                #print("First student pair: " + str(pair_and_ratio))
+                print("First student pair: " + str(pair_and_ratio))
                 # If both students are already in assigned rooms, go to next pair
                 if student_1 in D.keys() and student_2 in D.keys():
                     #print("Both students in this pair are already assigned to rooms.")
