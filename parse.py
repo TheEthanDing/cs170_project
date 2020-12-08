@@ -64,7 +64,6 @@ def read_input_file(path, max_size=None):
 
         return G, stress_budget
 
-read_input_file("50vals/50.in", max_size=None)
 
 def write_input_file(G, stress_budget, path):
     with open(path, "w") as fo:
@@ -126,7 +125,7 @@ def write_output_file(D, path):
             fo.write(str(key) + " " + str(value) + "\n")
         fo.close()
 
-input = sys.argv[1]
-output = sys.argv[2]
-G, s = read_input_file(input)
-read_output_file(output, G, s)
+#input = sys.argv[1]
+#output = sys.argv[2]
+#G, s = read_input_file(input)
+#read_output_file(output, G, s)

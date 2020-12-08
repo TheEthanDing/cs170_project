@@ -1,7 +1,7 @@
 import networkx as nx
 
-from parse import read_input_file, write_output_file
-from utils import is_valid_solution, calculate_happiness
+from parse import *
+from utils import *
 import sys
 
 
@@ -16,21 +16,66 @@ def solve(G, s):
     """
 
     # TODO: your code here!
-    pass
+    D = {}
+    k = 1
+    
+    students_left = G.number_of_nodes()
+    student_pairs = G.edges
+    student_pair_to_ratio = {}
+    for pair in student_pairs:
+        student_pair_to_ratio[pair] = G.edges[pair]["happiness"] / G.edges[pair]["stress"]
+    student_pair_to_ratio = sorted(student_pair_to_ratio.items(), key=lambda x:x[1], reverse=True)
+
+    room_to_students = {}
+
+    while students_left > 0:
+        students_left = G.number_of_nodes()
+        #students_remaining = student_pair_to_ratio.copy()
+        for r in range(k):
+            #room_stress = 0
+            room_to_students[r] = []
+            for pair_and_ratio in student_pair_to_ratio:
+                if student_1 in D.keys() and student_2 in D.keys():
+                    continue
+                pair = pair_and_ratio[0]
+                student_1 = pair[0]
+                student_2 = pair[1]
+                #ratio = pair_and_ratio[1]
+                if calculate_stress_for_room(room_to_students[r] + pair, G) <= s/k:
+                    if student_1 not in D.keys() and student_2 not in D.keys():
+                        D[student_1] = r
+                        D[student_2] = r
+                        room_to_students[r].extend(pair)
+                        students_left -= 2
+                    elif student_1 in room_to_students[r] and student_2 not in D.keys():
+                        D[student_2] = r
+                        room_to_students[r].append(student_2)
+                        students_left -= 1
+                    elif student_1 not in D.keys() and student_2 in room_to_students[r]:
+                        D[student_1] = r
+                        room_to_students[r].append(student_1)
+                        students_left -= 1
+                elif r + 1 >= k:
+                    break
+            k += 1
+
+    #print(student_pair_to_ratio[0][0])
+    return D, k
 
 
 # Here's an example of how to run your solver.
 
 # Usage: python3 solver.py test.in
 
-# if __name__ == '__main__':
-#     assert len(sys.argv) == 2
-#     path = sys.argv[1]
-#     G, s = read_input_file(path)
-#     D, k = solve(G, s)
-#     assert is_valid_solution(D, G, s, k)
-#     print("Total Happiness: {}".format(calculate_happiness(D, G)))
-#     write_output_file(D, 'out/test.out')
+if __name__ == '__main__':
+    assert len(sys.argv) == 2
+    path = sys.argv[1]
+    G, s = read_input_file(path)
+    solve(G, s)
+    #D, k = solve(G, s)
+    #assert is_valid_solution(D, G, s, k)
+    #print("Total Happiness: {}".format(calculate_happiness(D, G)))
+    #write_output_file(D, 'out/test.out')
 
 
 # For testing a folder of inputs to create a folder of outputs, you can use glob (need to import it)
