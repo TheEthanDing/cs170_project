@@ -38,7 +38,7 @@ def solve(G, s):
     max_ratio = 0
     best_node_one = 1
     best_node_two = 2
-    for node in g_iter:
+    for node_one in g_iter:
         for node_two in g_iter:
             h = G_copy[node_one][node_two]["happiness"]
             s = G_copy[node_one][node_two]["stress"]
@@ -61,8 +61,10 @@ def solve(G, s):
     #for one room
     while G_copy:
         while dict[curr_room] <= s/k:
+
             sorted_list = sort_ratios(G, dict[curr_room])
-            if sorted_list[0]
+                
+
 
 
     pass

@@ -126,7 +126,7 @@ def write_output_file(D, path):
             fo.write(str(key) + " " + str(value) + "\n")
         fo.close()
 
-input = sys.argv[1]
-output = sys.argv[2]
-G, s = read_input_file(input)
-read_output_file(output, G, s)
+# input = sys.argv[1]
+# output = sys.argv[2]
+# G, s = read_input_file(input)
+# read_output_file(output, G, s)
